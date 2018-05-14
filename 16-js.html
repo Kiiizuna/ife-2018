@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>IFE ECMAScript</title>
+</head>
+<body>        
+    <input id="first-number" type="number" value="0" placeholder="第一个数字">
+    <input id="second-number" type="number" value="0" placeholder="第二个数字">
+    <button id="add-btn">加</button>
+    <button id="minus-btn">减</button>
+    <button id="times-btn">乘</button>
+    <button id="divide-btn">除</button>
+    <p id="result">运算结果</p>
+    <script>
+        var log = function() {
+            console.log.apply(console, arguments)
+        }
+    	var firstNumber = document.querySelector("#first-number")
+    	var secondNumber = document.querySelector("#second-number")
+    	var addBtn = document.querySelector("#add-btn")
+    	var minusBtn = document.querySelector("#minus-btn")
+    	var timesBtn = document.querySelector("#times-btn")
+    	var divideBtn = document.querySelector("#divide-btn")
+        var result = document.querySelector("#result")
+        addBtn.addEventListener("click", function() {
+            log(typeof(firstNumber.value))
+            var addResult = Number(firstNumber.value) + Number(secondNumber.value)
+            log("addResult", addResult)
+            result.innerText = "运算结果" + addResult
+        })
+
+        minusBtn.addEventListener("click", function() {
+            log(typeof(firstNumber.value))
+            var addResult = Number(firstNumber.value) - Number(secondNumber.value)
+            log("addResult", addResult)
+            result.innerText = "运算结果" + addResult
+        })
+
+        timesBtn.addEventListener("click", function() {
+            log(typeof(firstNumber.value))
+            var addResult = Number(firstNumber.value) * Number(secondNumber.value)
+            log("addResult", addResult)
+            result.innerText = "运算结果" + addResult
+        })
+
+        divideBtn.addEventListener("click", function() {
+            log(typeof(firstNumber.value))
+            var addResult = Number(firstNumber.value) / Number(secondNumber.value)
+            log("addResult", addResult)
+            result.innerText = "运算结果" + addResult
+        })
+
+
+    </script>
+</body>
+</html>
