@@ -1,2 +1,11 @@
-# records of learning in ife-2018
-holding on is an unique goal
+# Records of learning in ife-2018
+## 第二天的相关问题:
+- HTML是什么，HTML5是什么
+- HTML元素标签、属性都是什么概念？
+- 文档类型是什么概念，起什么作用？
+- meta标签都用来做什么的？
+- Web语义化是什么，是为了解决什么问题
+- 链接是什么概念，对应什么标签？
+- 常用标签都有哪些，都适合用在什么场景
+- 表单标签都有哪些，对应着什么功能，都有哪些属性
+- ol, ul, li, dl, dd, dt等这些标签都适合用在什么地方，举个例子
