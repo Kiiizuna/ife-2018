@@ -1,4 +1,4 @@
-# Records of learning in ife-2018
+# 零基础学院的记录
 ## 第二天的相关问题:
 - HTML是什么，HTML5是什么
 - HTML元素标签、属性都是什么概念？
