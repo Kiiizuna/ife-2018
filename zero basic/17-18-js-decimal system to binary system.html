@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>IFE ECMAScript decimal system to binary system</title>
+</head>
+<body>        
+    <input id="dec-number" type="number" placeholder="输入一个十进制非负整数">
+    <input id="bin-bit" type="number" placeholder="输入转化后二进制数字位数">
+    <button id="trans-btn">转化为二进制</button>
+    <p id="result">运算结果</p>
+    <script>
+        var log = function() {
+            console.log.apply(console, arguments)
+        }
+
+        var formatedNum = ''
+        var decNumber = document.querySelector("#dec-number")
+        function dec2bin(decNumber) {
+
+            // 在这里实现你的转化方法，注意需要判断输入必须为一个非负整数
+            var b = []
+           
+            var value = decNumber.value
+            log("value is", value)
+            while (value > 0) {
+                var a = value % 2
+                log("a", a)
+                var value = parseInt(value / 2)
+                log("value", value)
+                b.push(a)
+            }
+            var c = b.reverse()
+            log('c', c)
+            var stringNum = arr2str(c)
+            log('stringNum', stringNum)
+            var formatedNum = format(stringNum)
+            log('formatedNum', formatedNum)
+            return Number(formatedNum)
+        }
+
+
+
+        var isInterger = function(v) {
+        	return Math.floor(v) === v
+        }
+
+
+        var arr2str = function(arr) {
+            var a = ''
+            for(var i = 0; i < arr.length; i++){
+                a = a + arr[i]
+            }
+            return a
+        }
+
+             // 在转换的2进制数前加入需要的'0'
+        var format = function(ele) {
+            var binBit = e(document, '#bin-bit')
+            var value = binBit.value
+            var valueNum = Number(value)
+            log('binBit is', valueNum)
+            // var str = String(ele)
+            if(ele.length > binBit) {
+                log('dont need to change')
+            }else{
+                for(var i = 0; i < valueNum - ele.length + 1; i++){
+                ele = '0' + ele
+                log('ele is', ele)
+                }
+            }
+            return ele
+        }
+
+        var e = function(element, str) {
+            return element.querySelector(str)
+        }
+
+
+        // 实现党点击转化按钮时，将输入的十进制数字转化为二进制，并显示在result的p标签内
+        // Some coding
+        var btn = document.querySelector("#trans-btn")
+        var result = document.querySelector("#result")
+        btn.addEventListener("click", function() {
+            var res = dec2bin(decNumber)
+            result.innerText = res
+        }) 
+
+    </script>
+</body>
+</html>
