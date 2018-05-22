@@ -36,7 +36,7 @@
             log('stringNum', stringNum)
             var formatedNum = format(stringNum)
             log('formatedNum', formatedNum)
-            return Number(formatedNum)
+            return formatedNum
         }
 
 
@@ -54,22 +54,25 @@
             return a
         }
 
-             // 在转换的2进制数前加入需要的'0'
+             // 在转换的2进制数前加入需要的'0', 传入的是string类型
         var format = function(ele) {
             var binBit = e(document, '#bin-bit')
             var value = binBit.value
             var valueNum = Number(value)
+            var len = valueNum - ele.length
             log('binBit is', valueNum)
             // var str = String(ele)
-            if(ele.length > binBit) {
+            if(ele.length > valueNum) {
                 log('dont need to change')
+                return ele
             }else{
-                for(var i = 0; i < valueNum - ele.length + 1; i++){
+                for(var i = 0; i < len; i++){
                 ele = '0' + ele
                 log('ele is', ele)
                 }
+                return ele
             }
-            return ele
+           
         }
 
         var e = function(element, str) {
@@ -83,7 +86,7 @@
         var result = document.querySelector("#result")
         btn.addEventListener("click", function() {
             var res = dec2bin(decNumber)
-            result.innerText = res
+            result.innerText = `运算结果:${res}`
         }) 
 
     </script>
