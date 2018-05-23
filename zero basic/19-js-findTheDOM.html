@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>IFE ECMAScript</title>
+</head>
+<body>        
+    <div id="wrapper">
+        <div id="news-top" class="section">
+            <h3>Some title</h3>
+            <div class="content">
+                <ul>
+                    <li><span>HTML</span><a href="">Some Link1</a></li>
+                    <li><span>JS</span><a class="active" href="">Some Link2</a></li>
+                    <li><span>CSS</span><a href="">Some Link3</a></li>
+                    <li><span>JS</span><a href="">Some Link4</a></li>
+                </ul>
+            </div>
+            <img src="">
+            <p class="">Some Text</p>
+        </div>
+        <div id="news-normal" class="section">
+            <h3>Some title</h3>
+            <div class="content">
+                <ul>
+                    <li><span>HTML</span><a href="">Some Link1</a></li>
+                    <li><span>HTML</span><a href="">Some Link2</a></li>
+                    <li><span>JS</span><a class="active" href="#">Some Link3</a></li>
+                    <li><span>CSS</span><a href="">Some Link4</a></li>
+                </ul>
+            </div>
+            <img src="">
+            <p class="">Some Text</p>
+        </div>      
+    </div>
+    <script>
+
+        var log = function() {
+            console.log.apply(console, arguments)
+        }
+
+        function getAllListItem() {
+            // 返回页面中所有li标签
+            var list = document.getElementsByTagName('li')
+            return list
+        }
+        getAllListItem()
+        log("list", getAllListItem())  
+
+        function findAllHtmlSpanInOneSection(sectionId) {
+            // 返回某个section下所有span中内容为HTML的span标签
+            var sec = document.getElementById(sectionId)
+                        log('sec is', sec)
+            var span = sec.getElementsByTagName('span')
+            log('span is', span)
+            for (var i = 0; i < span.length; i++) {
+                var s = span[i]
+                log('s.innerText is', s.value)
+                if (s.innerText === 'HTML') {
+                    return s
+                }
+            }
+        }
+        var res = findAllHtmlSpanInOneSection('news-top')
+        log('res', res)
+
+        function findListItem(sectionId, spanCont) {
+            // 返回某个section下，所有所包含span内容为spanCont的LI标签
+            var sec = document.getElementById(sectionId)
+            var li = sec.getElementsByTagName('li')
+            var result = []
+            log('all li is ', li)
+            for (var i = 0; i < li.length; i++) {
+                var l = li[i]
+                log('l is ',l)
+                log('l.childNodes is', l.childNodes)
+               if (l.childNodes[0].innerText === spanCont) {
+                    result.push(l)
+               }  
+            }    
+            return result              
+        }
+        var c = findListItem('news-normal', 'HTML')
+        log('c', c)
+
+        function getActiveLinkContent(sectionId) {
+            // 返回某个section下，class为active的链接中包含的文字内容
+            var sec = document.getElementById(sectionId)
+            var links = sec.getElementsByTagName('a')
+            for (var i = 0; i < links.length; i++) {
+                var activeOne = links[i].classList.contains('active')
+                log('activeOne', activeOne)
+                if (activeOne) {
+                    return links[i].innerText
+                };
+            }
+        }
+        var d = getActiveLinkContent('news-normal')
+        log('d is ', d)
+    </script>
+</body>
+</html>
