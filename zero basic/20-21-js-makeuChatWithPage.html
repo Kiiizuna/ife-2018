@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>让你和页面对话</title>
+</head>
+<body>
+
+	<input id="name" type="text">    
+	<button id="submit-btn">Submit</button>
+
+	<script type="text/javascript">
+		var log = function() {
+			console.log.apply(console, arguments)
+			}
+
+		var e = function(element, selector) {
+			return element.querySelector(selector)
+		}
+		var bindEvent = function(element, eventName, callback) {
+			element.addEventListener(eventName, callback)
+		}
+
+		//当点击按钮 submit-btn 时，在console中输出 name 中的内容
+		var submitBtn = e(document, '#submit-btn')
+		var input = e(document, '#name')
+		log('input is', input)
+		
+		bindEvent(submitBtn, 'click', function(){
+			var val = input.value
+			log(val)
+		})
+
+		// 在输入过程中，如果按回车键，则同样执行上一条的需求
+		var condition
+		bindEvent(input, 'focus', function(){
+			return condition = true
+		})
+		bindEvent(input, 'blur', function(){
+			return condition = false
+		})
+		log('condition', condition)
+		
+		
+		
+		if (true) {
+			bindEvent(document, 'keydown', function(event){
+				var val = input.value
+				// log('val', val)
+				if (event.key === 'Enter') {
+					log(val)
+					return condition = false
+				}
+			})				
+		};
+		// bindEvent(document, 'keydown', function(event){
+		// 	var val = input.value
+		// 	// log('val', val)
+		// 	if (event.key === 'Enter') {
+		// 		log(val)
+		// 	}
+		// })
+
+
+		// 在输入过程中，如果按 ESC 键，则把输入框中的内容清空
+
+
+			
+
+		
+		
+
+	</script>
+</body>
+</html>

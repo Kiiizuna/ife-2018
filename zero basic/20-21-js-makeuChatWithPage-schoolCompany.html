@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>IFE ECMAScript</title>
+    <style>
+        select {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>            
+    <label>
+        <input id="school" name="status" type="radio">
+        School
+    </label>
+    <label>
+        <input id="company" name="status" type="radio">
+        Company
+    </label>
+
+    <select id="school-select">        
+        <option>北京邮电大学</option>
+        <option>黑龙江大学</option>
+        <option>华中科技大学</option>
+    </select>
+
+    <select id="company-select">        
+        <option>百度</option>
+        <option>爱奇艺</option>        
+    </select>
+    <script type="text/javascript">
+        var log = function() {
+            console.log.apply(console, arguments)
+            }
+
+        var e = function(element, selector) {
+            return element.querySelector(selector)
+        }
+
+        var bindEvent = function(element, eventName, callback) {
+            return element.addEventListener(eventName, callback)
+        }
+
+        var toggleClass = function(element, className) {
+            if (element.classList.contains(className)) {
+                element.classList.remove(className)
+            } else {
+                element.classList.add(className)
+            }
+        }
+        // 当用户选择了 School 的单选框时，显示 School 的下拉选项，隐藏 Company 的下拉选项
+        // 当用户选择了 School 的单选框时，显示 Company 的下拉选项，隐藏 School 的下拉选项  
+        var input = document.querySelectorAll('input')
+        var select = document.querySelectorAll('select')
+        var index
+        var showSelect = function() {
+            for (var i = 0; i < input.length; i++) {
+                // var a = input[i]
+                // var judge = a.getAttribute('checked') === 'checked'
+                var b = input[i].checked
+                log('judge', b)
+                if (b) {
+                    log('11111')
+                    index = i
+                    toggleClass(select[index], 'show')
+                }
+            }           
+        }
+
+        bindEvent(document, 'click', showSelect)
+        
+        // for (var i = 0; i < input.length; i++) {
+        //     var a = input[i]
+        //     var judge = a.getAttribute('checked') === 'checked'
+        //     log('judge', judge)
+        //     if (judge) {
+        //         log('11111')
+        //         index = i
+        //         toggleClass(select[index], show)
+        //     }
+        // }
+
+
+    </script>
+</body>
+</html>
