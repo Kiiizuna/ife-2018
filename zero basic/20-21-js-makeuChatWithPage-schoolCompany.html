@@ -46,15 +46,15 @@
             return element.addEventListener(eventName, callback)
         }
 
-        var toggleClass = function(element, className) {
-            if (element.classList.contains(className)) {
-                element.classList.remove(className)
-            } else {
-                element.classList.add(className)
-            }
-        }
+        // var toggleClass = function(element, className) {
+        //     if (element.classList.contains(className)) {
+        //         element.classList.remove(className)
+        //     } else {
+        //         element.classList.add(className)
+        //     }
+        // }
         // 当用户选择了 School 的单选框时，显示 School 的下拉选项，隐藏 Company 的下拉选项
-        // 当用户选择了 School 的单选框时，显示 Company 的下拉选项，隐藏 School 的下拉选项  
+        // 当用户选择了 Company 的单选框时，显示 Company 的下拉选项，隐藏 School 的下拉选项  
         var input = document.querySelectorAll('input')
         var select = document.querySelectorAll('select')
         var index
@@ -65,26 +65,17 @@
                 var b = input[i].checked
                 log('judge', b)
                 if (b) {
-                    log('11111')
+                    for (var j = 0; j < select.length; j++) {
+                        select[j].classList.remove('show')
+                    }
                     index = i
-                    toggleClass(select[index], 'show')
+                    select[index].classList.add('show') 
                 }
             }           
         }
-
+        // 给页面绑定点击事件, 在绑定后检查是否 checked
+        // 先去除所有的 show class 再给 checked 加上show class
         bindEvent(document, 'click', showSelect)
-        
-        // for (var i = 0; i < input.length; i++) {
-        //     var a = input[i]
-        //     var judge = a.getAttribute('checked') === 'checked'
-        //     log('judge', judge)
-        //     if (judge) {
-        //         log('11111')
-        //         index = i
-        //         toggleClass(select[index], show)
-        //     }
-        // }
-
 
     </script>
 </body>
