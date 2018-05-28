@@ -93,15 +93,16 @@
         var c = findListItem('#news-normal', 'HTML')
         log('c', c)
 
-
-
-
-
-        
-
         function getActiveLinkContent(sectionId) {
             // 返回某个section下，class为active的链接中包含的文字内容
+            var sec = e(document, sectionId)
+            var aLink = e(sec, '.active')
+            var res = aLink.innerText
+            return res
         }
+
+        var d = getActiveLinkContent("#news-normal")
+        log('d is', d)
 
     </script>
 </body>
