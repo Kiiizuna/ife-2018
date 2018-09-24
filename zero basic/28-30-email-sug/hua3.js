@@ -33,7 +33,7 @@ var toggleClass = function(className, element) {
 }
 
 var appendHTML = function(element, html) {
-	element.insertAdjacent('beforeend', html)
+	element.insertAdjacentHTML('beforeend', html)
 }
 
 var findElement = function(element, selector) {
