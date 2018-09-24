@@ -24,9 +24,17 @@ function getInput() {
    		log('keyup')
       var rawValue = emailInput.value
       val = rawValue.trim()
-      log('val is', val)
-      生成提示框中的提示内容()
-      控制ul的显示或者隐藏状态()
+      if (val.indexOf('@') > -1) {
+        var index = val.indexOf('@')
+        val = val.slice(0, index)
+        log('val is', val)
+        生成提示框中的提示内容()
+        控制ul的显示或者隐藏状态()
+      } else {
+        log('val is', val)
+        生成提示框中的提示内容()
+        控制ul的显示或者隐藏状态()
+      }
    })
    //  emailInput.addEventListener('keypress',function(){
    // 		log('keypress')
