@@ -3,8 +3,8 @@ const log = function() {
 }
 
 const inputDom的输入监听 = function() {
-    var value = ''
     var li = ''
+    var val = ''
     // var list = []
     // 获取用户输入
     getInput()
@@ -15,7 +15,7 @@ const inputDom的输入监听 = function() {
 inputDom的输入监听()
 
 function getInput() {
-    // var val = ''
+    // var val = '' 在这定义, 后面引用会报错
 	  // 获取用户输入()
     // 拿到input输入框的输入内容trim后返回
     var emailInput = document.querySelector('#email-input')
@@ -26,6 +26,7 @@ function getInput() {
       val = rawValue.trim()
       log('val is', val)
       生成提示框中的提示内容()
+      控制ul的显示或者隐藏状态()
    })
    //  emailInput.addEventListener('keypress',function(){
    // 		log('keypress')
@@ -53,9 +54,11 @@ function 生成提示框中的提示内容() {
         // 将提示内容添加到ul中()
     }
     var ulWrapper = document.querySelector('#email-sug-wrapper')
+    ulWrapper.innerHTML = ''
     for (var i = 0; i < list.length; i++) {
       ulWrapper.insertAdjacentHTML('beforeend', list[i])   
     }
+    // 将提示内容添加到ul中() 
     // 遍历postfixList {
     //     把用户输入和每一个postfix进行结合成为每一个Li
     // }
@@ -64,25 +67,40 @@ function 生成提示框中的提示内容() {
 
 function 将提示内容添加到ul中() {
     var ulWrapper = document.querySelector('#email-sug-wrapper')
-    ulWrapper.insertAdjacentHTML('beforeend', list) 
+    ulWrapper.innerHTML = ''
+    for (var i = 0; i < list.length; i++) {
+      ulWrapper.insertAdjacentHTML('beforeend', list[i])   
+    }
     // email-sug-wrapper
     // 获取生成提示框中的提示内容
     // 将内容添加到email-sug-wrapper中
+    // 该函数没有调用
 }
 
 function 控制ul的显示或者隐藏状态() {
-    // email-sug-wrapper
+  if (val === '') {
+    隐藏提示框()
+  } else {
+    显示提示框()
+  }
+    // ul email-sug-wrapper
     // if 用户输入为空 {
     //     隐藏提示框
     // } else {
     //     显示提示框
     // }
+
 }
 
 function 隐藏提示框() {
+  var ulWrapper = document.querySelector('#email-sug-wrapper')
+  ulWrapper.classList.add('hide')
     // 做具体隐藏提示框的操作
 }
 
 function 显示提示框() {
+  var ulWrapper = document.querySelector('#email-sug-wrapper')
+  ulWrapper.classList.remove('hide')
+  ulWrapper.classList.add('show')
     // 做具体显示提示框的操作
 }
