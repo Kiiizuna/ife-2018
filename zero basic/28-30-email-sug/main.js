@@ -12,6 +12,14 @@ const inputDom的输入监听 = function() {
     // 生成提示框中的提示内容
     // 将提示内容添加到email-sug-wrapper中
     // 控制email-sug-wrapper的显示/隐藏状态
+    var ulWrapper = document.querySelector('#email-sug-wrapper')
+    var emailInput = document.querySelector('#email-input')
+    ulWrapper.addEventListener('click', function(event){
+      var e = event.target
+     log('click target is ', e)
+     emailInput.value = e.innerHTML
+     ulWrapper.classList.add('hide')
+    })
 }
 inputDom的输入监听()
 
@@ -68,7 +76,7 @@ function 生成提示框中的提示内容() {
     var len = postfixList.length
     var l = ''
     var list = []
-    var list2 = []
+    var unmatchList = []
     for (var i = 0; i < len; i++) {
         if (postfixList[i].indexOf(val2) > -1) {
           l = val + '@' + postfixList[i]
@@ -80,10 +88,9 @@ function 生成提示框中的提示内容() {
           l = val + '@' + postfixList[i]
           li = `<li>${l}</li>`
           log('li is444 ', li)
-          list2.push(li)
-          log('list arr444 ', list2)
+          unmatchList.push(li)
+          log('list arr444 ', unmatchList)
         }
-        
         // 将提示内容添加到ul中()
     }
     if (list.length != 0) {
@@ -97,8 +104,8 @@ function 生成提示框中的提示内容() {
         var ulWrapper = document.querySelector('#email-sug-wrapper')
         ulWrapper.innerHTML = ''
         // 在for 循环逐条插入前先清0
-        for (var i = 0; i < list2.length; i++) {
-        ulWrapper.insertAdjacentHTML('beforeend', list2[i])
+        for (var i = 0; i < unmatchList.length; i++) {
+        ulWrapper.insertAdjacentHTML('beforeend', unmatchList[i])
       }  
     }
    
@@ -148,3 +155,4 @@ function 显示提示框() {
   ulWrapper.classList.add('show')
     // 做具体显示提示框的操作
 }
+
