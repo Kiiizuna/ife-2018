@@ -14,12 +14,14 @@ const inputDom的输入监听 = function() {
     // 控制email-sug-wrapper的显示/隐藏状态
     var ulWrapper = document.querySelector('#email-sug-wrapper')
     var emailInput = document.querySelector('#email-input')
+    // 点击li 中内容显示在input 中事件
     ulWrapper.addEventListener('click', function(event){
       var e = event.target
      log('click target is ', e)
      emailInput.value = e.innerHTML
      ulWrapper.classList.add('hide')
     })
+    
 }
 inputDom的输入监听()
 
@@ -43,16 +45,10 @@ function getInput() {
         控制ul的显示或者隐藏状态()
       } else {
         log('val is', val)
-        生成提示框中的提示内容()
+        初始生成提示框中的提示内容()
         控制ul的显示或者隐藏状态()
       }
    })
-   //  emailInput.addEventListener('keypress',function(){
-   // 		log('keypress')
-   // })
-   //  emailInput.addEventListener('keydown',function(){
-   // 		log('keydown')
-   // })
    //  emailInput.addEventListener('oninput',function(){
    // 		log('oninput')
    // })
@@ -87,9 +83,9 @@ function 生成提示框中的提示内容() {
         } else {
           l = val + '@' + postfixList[i]
           li = `<li>${l}</li>`
-          log('li is444 ', li)
+          log('unmatch li is444 ', li)
           unmatchList.push(li)
-          log('list arr444 ', unmatchList)
+          log('unmatch list arr444 ', unmatchList)
         }
         // 将提示内容添加到ul中()
     }
@@ -108,13 +104,33 @@ function 生成提示框中的提示内容() {
         ulWrapper.insertAdjacentHTML('beforeend', unmatchList[i])
       }  
     }
+  }
    
-    // 将提示内容添加到ul中() 
-    // 遍历postfixList {
-    //     把用户输入和每一个postfix进行结合成为每一个Li
-    // }
-    // 返回生成的提示内容
-}
+function 初始生成提示框中的提示内容() {
+    // 获取用户输入
+    var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+    var len = postfixList.length
+    var l = ''
+    var list = []
+    var ulWrapper = document.querySelector('#email-sug-wrapper')
+    var liActiveIndex = parseInt(ulWrapper.dataset.active)
+
+    for (var i = 0; i < len; i++) {
+          l = val + '@' + postfixList[i]
+          li = `<li>${l}</li>`
+          list.push(li)
+    }
+    if (list.length != 0) {
+        var ulWrapper = document.querySelector('#email-sug-wrapper')
+        ulWrapper.innerHTML = ''
+        // 在for 循环逐条插入前先清0
+        for (var i = 0; i < list.length; i++) {
+        ulWrapper.insertAdjacentHTML('beforeend', list[i])   
+      }
+    }
+
+  }
+
 
 function 将提示内容添加到ul中() {
     var ulWrapper = document.querySelector('#email-sug-wrapper')
@@ -128,19 +144,13 @@ function 将提示内容添加到ul中() {
     // 该函数没有调用
 }
 
+
 function 控制ul的显示或者隐藏状态() {
   if (val === '') {
     隐藏提示框()
   } else {
     显示提示框()
   }
-    // ul email-sug-wrapper
-    // if 用户输入为空 {
-    //     隐藏提示框
-    // } else {
-    //     显示提示框
-    // }
-
 }
 
 function 隐藏提示框() {
