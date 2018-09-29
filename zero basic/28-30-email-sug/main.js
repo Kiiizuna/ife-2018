@@ -14,14 +14,15 @@ const inputDom的输入监听 = function() {
     // 控制email-sug-wrapper的显示/隐藏状态
     var ulWrapper = document.querySelector('#email-sug-wrapper')
     var emailInput = document.querySelector('#email-input')
-    // 点击li 中内容显示在input 中事件
+    // 点击li 后内容显示在input 中事件
     ulWrapper.addEventListener('click', function(event){
       var e = event.target
      log('click target is ', e)
      emailInput.value = e.innerHTML
      ulWrapper.classList.add('hide')
     })
-    
+    // press key down
+    // document.addEventListener('')
 }
 inputDom的输入监听()
 
@@ -30,24 +31,33 @@ function getInput() {
 	  // 获取用户输入()
     // 拿到input输入框的输入内容trim后返回
     var emailInput = document.querySelector('#email-input')
+    var ulWrapper = document.querySelector('#email-sug-wrapper')
+    var liActiveIndex = parseInt(ulWrapper.dataset.active)
+    var liNumbers = parseInt(ulWrapper.dataset.li)
     log('emailInput is', emailInput)
-    emailInput.addEventListener('keyup',function(){
-   		log('keyup')
-      var rawValue = emailInput.value
-      val = rawValue.trim()
-      if (val.indexOf('@') > -1) {
-        var index = val.indexOf('@')
-        val2 = val.slice(index + 1)
-        val = val.slice(0, index)
-        log('val is', val)
-        log('val2 is', val2)
-        生成提示框中的提示内容()
-        控制ul的显示或者隐藏状态()
-      } else {
-        log('val is', val)
-        初始生成提示框中的提示内容()
-        控制ul的显示或者隐藏状态()
+    emailInput.addEventListener('keyup',function(event){
+      var key = event.key
+      log('keyup', event, 'key is ', key)
+      if (key != 'ArrowUp' && key != 'Enter' && key != 'ArrowDown') {
+          var rawValue = emailInput.value
+          val = rawValue.trim()
+          if (val.indexOf('@') > -1) {
+          var index = val.indexOf('@')
+          val2 = val.slice(index + 1)
+          val = val.slice(0, index)
+          log('val is', val)
+          log('val2 is', val2)
+          生成提示框中的提示内容()
+          控制ul的显示或者隐藏状态()
+        } else {
+          log('val is', val)
+          初始生成提示框中的提示内容()
+          控制ul的显示或者隐藏状态()
+        }
+      } else if (key === 'KeyDown') {
+        log('KeyDown')
       }
+     
    })
    //  emailInput.addEventListener('oninput',function(){
    // 		log('oninput')
@@ -112,9 +122,9 @@ function 初始生成提示框中的提示内容() {
     var len = postfixList.length
     var l = ''
     var list = []
-    var ulWrapper = document.querySelector('#email-sug-wrapper')
-    var liActiveIndex = parseInt(ulWrapper.dataset.active)
-
+    // var ulWrapper = document.querySelector('#email-sug-wrapper')
+    // var liActiveIndex = parseInt(ulWrapper.dataset.active)
+    // var liNumbers = parseInt(ulWrapper.dataset.li)
     for (var i = 0; i < len; i++) {
           l = val + '@' + postfixList[i]
           li = `<li>${l}</li>`
@@ -128,7 +138,7 @@ function 初始生成提示框中的提示内容() {
         ulWrapper.insertAdjacentHTML('beforeend', list[i])   
       }
     }
-
+    ulWrapper.firstChild.classList.add('active')
   }
 
 
