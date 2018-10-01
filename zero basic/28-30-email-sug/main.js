@@ -38,6 +38,7 @@ function getInput() {
     emailInput.addEventListener('keyup',function(event){
       var key = event.key
       log('keyup', event, 'key is ', key)
+      // 如果按键不是上下或者enter
       if (key != 'ArrowUp' && key != 'Enter' && key != 'ArrowDown') {
           var rawValue = emailInput.value
           val = rawValue.trim()
@@ -54,8 +55,16 @@ function getInput() {
           初始生成提示框中的提示内容()
           控制ul的显示或者隐藏状态()
         }
-      } else if (key === 'KeyDown') {
-        log('KeyDown')
+      } else if (key === 'ArrowDown') {
+          log('KeyDownnnnnnnn')
+          var nextIndex = (liActiveIndex + 1) % liNumbers
+          ulWrapper.dataset.active = nextIndex
+          var selectedLi = document.querySelector('.active')
+          selectedLi.nextSibling.classList.add('active')
+      } else if (key === 'ArrowUp') {
+        log('keyuppppppppp')
+      } else if (key === 'Enter') {
+        log('enterrrrrr')
       }
      
    })
