@@ -42,10 +42,11 @@ var findElement = function(element, selector) {
 
 
 var removeClassAll = function(className) {
-	var selector = '.' + className
+    var selector = '.' + className
 	var elements = document.querySelectorAll(selector)
 	for (var i = 0; i < elements.length; i++) {
 		var e = elements[i]
 		e.classList.remove(className)
 	}
 }
+

@@ -55,15 +55,27 @@ function getInput() {
           初始生成提示框中的提示内容()
           控制ul的显示或者隐藏状态()
         }
-      } else if (key === 'ArrowDown') {
-          log('KeyDownnnnnnnn')
+      }   
+      if (key === 'ArrowDown') {
+          log('KeyDownnnnnnnn', liActiveIndex, liNumbers)
           var nextIndex = (liActiveIndex + 1) % liNumbers
           ulWrapper.dataset.active = nextIndex
+          liActiveIndex = parseInt(ulWrapper.dataset.active)
           var selectedLi = document.querySelector('.active')
-          selectedLi.nextSibling.classList.add('active')
-      } else if (key === 'ArrowUp') {
-        log('keyuppppppppp')
-      } else if (key === 'Enter') {
+          if (selectedLi != ulWrapper.lastChild) {
+            selectedLi.nextSibling.classList.add('active')
+            selectedLi.classList.remove('active')
+          } else {
+            ulWrapper.firstChild.classList.add('active')
+            ulWrapper.lastChild.classList.remove('active')
+          }
+          
+      } 
+       if (key === 'ArrowUp') {
+          log('keyuppppppppp')
+
+      } 
+       if (key === 'Enter') {
         log('enterrrrrr')
       }
      
@@ -185,3 +197,11 @@ function 显示提示框() {
     // 做具体显示提示框的操作
 }
 
+// remove all class
+// var removeClassAll = function(className) {
+//     var selector = '.' + className
+//     var elements = document.querySelector(selector)
+//     for (var i = 0; i < elements.length; i++) {
+//         elements[i].classList.remove(selector)
+//     }
+// }
