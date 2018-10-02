@@ -2,10 +2,21 @@ const log = function() {
 	console.log.apply(console, arguments)
 }
 
+
+
 const inputDom的输入监听 = function() {
     var li = ''
     var val = ''
     var val2 = ''
+    window.addEventListener('load', function() {
+    emailInput.focus()
+    })
+    document.addEventListener('keyup', function(event) {
+        if (event.key === 'Escape') {
+            emailInput.focus()
+            emailInput.select()
+        }
+    })   
     // var list = []
     // 获取用户输入
     getInput()
@@ -19,6 +30,7 @@ const inputDom的输入监听 = function() {
       var e = event.target
      log('click target is ', e)
      emailInput.value = e.innerHTML
+     emailInput.focus()
      ulWrapper.classList.add('hide')
     })
     // press key down
@@ -52,7 +64,7 @@ function getInput() {
           控制ul的显示或者隐藏状态()
         } else {
           log('val is', val)
-          初始生成提示框中的提示内容()
+          第一次生成提示框中的提示内容()
           控制ul的显示或者隐藏状态()
         }
       }   
@@ -83,14 +95,11 @@ function getInput() {
           }
       } 
        if (key === 'Enter') {
-        log('emailInput', emailInput)
         log('enterrrrrr')
         var selectedLi = document.querySelector('.active')
         emailInput.value = selectedLi.innerHTML
         ulWrapper.classList.add('hide')
-
       }
-     
    })
    //  emailInput.addEventListener('oninput',function(){
    // 		log('oninput')
@@ -137,7 +146,8 @@ function 生成提示框中的提示内容() {
         ulWrapper.innerHTML = ''
         // 在for 循环逐条插入前先清0
         for (var i = 0; i < list.length; i++) {
-        ulWrapper.insertAdjacentHTML('beforeend', list[i])   
+        ulWrapper.insertAdjacentHTML('beforeend', list[i])
+        ulWrapper.firstChild.classList.add('active')
       }
     } else {
         var ulWrapper = document.querySelector('#email-sug-wrapper')
@@ -145,11 +155,12 @@ function 生成提示框中的提示内容() {
         // 在for 循环逐条插入前先清0
         for (var i = 0; i < unmatchList.length; i++) {
         ulWrapper.insertAdjacentHTML('beforeend', unmatchList[i])
+        ulWrapper.firstChild.classList.add('active')
       }  
     }
   }
    
-function 初始生成提示框中的提示内容() {
+function 第一次生成提示框中的提示内容() {
     // 获取用户输入
     var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
     var len = postfixList.length
@@ -217,3 +228,4 @@ function 显示提示框() {
 //         elements[i].classList.remove(selector)
 //     }
 // }
+
