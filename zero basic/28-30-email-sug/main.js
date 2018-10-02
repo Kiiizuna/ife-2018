@@ -73,10 +73,22 @@ function getInput() {
       } 
        if (key === 'ArrowUp') {
           log('keyuppppppppp')
-
+          var selectedLi = document.querySelector('.active')
+          if (selectedLi != ulWrapper.firstChild) {
+            selectedLi.previousSibling.classList.add('active')
+            selectedLi.classList.remove('active')
+          } else {
+            ulWrapper.lastChild.classList.add('active')
+            ulWrapper.firstChild.classList.remove('active')
+          }
       } 
        if (key === 'Enter') {
+        log('emailInput', emailInput)
         log('enterrrrrr')
+        var selectedLi = document.querySelector('.active')
+        emailInput.value = selectedLi.innerHTML
+        ulWrapper.classList.add('hide')
+
       }
      
    })
