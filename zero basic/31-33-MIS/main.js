@@ -38,9 +38,12 @@ const appendHTML = function(element, html) {
 //     }
 //     把生成的HTML内容赋给table-wrapper
 // }
+var regionChecked = []
+var productChecked = []
+
 var templateTableHead = function() {
 	var t = `
-		<table border='1'>
+		<table class='table' border='1'>
 			<tr>
 				<th>商品</th>
 				<th>地区</th>
@@ -62,6 +65,29 @@ var templateTableHead = function() {
 	return t
 }
 
+var templateTableRow = function(input) {
+	var region = input.dataset.region
+	var t = `
+		<tr>
+			<td>11</td>
+			<td>${region}</td>
+			<td>1</td>
+			<td>2</td>
+			<td>33</td>
+			<td>44</td>
+			<td>55</td>
+			<td>6</td>
+			<td>7</td>
+			<td>888</td>
+			<td>99</td>
+			<td>10</td>
+			<td>111</td>
+			<td>12</td>				
+		</tr>
+	`
+	return t
+}
+
 var insertTableHeader = function() {
 	var table = e('#table-wrapper')
 	table.innerHTML = ''
@@ -69,13 +95,29 @@ var insertTableHeader = function() {
 	appendHTML(table, tableHeader)
 }
 
-// 所有绑定事件集合函数
+var insertTableRow = function(sourceData) {
+	var table = e('.table')
+	for (var i = 0; i < regionChecked.length; i++) {
+		for (var j = 0; j < sourceData.length; j++) {
+			var selectedRegion = regionChecked[i].dataset.region
+			if( selectedRegion === sourceData[j].region) {
+				var tableRow = templateTableRow(regionChecked[i])
+				appendHTML(table, tableRow)
+			}
+		}
+	}
+}
+
+// 所有绑定事件集合的函数
 var bindEvents = function() {
 	bindAll('.class-input', 'click', function() {
+		// var regionChecked = []
 		getData()
+		var selectedRegion = getSelectedRegion()
+		log('regionChecked', regionChecked, 'selectedRegion',selectedRegion)
 		insertTableHeader()
-		// var tableHeader = templateTableHead()
-		// appendHTML(tableHeader)
+		insertTableRow(sourceData)
+
 	})
 		log('click')
 }
@@ -83,25 +125,38 @@ var bindEvents = function() {
 
 // 分开获取用户选择的数据, 一开始是地区和商品放在一个数组里
 var getData = function() {
-	var regionFrom = e('.region')
-	var productFrom = e('.product')
+	var regionForm = e('.region')
+	var productForm = e('.product')
 	var inputs = document.getElementsByTagName('input')
-	var regionChecked = []
-	var productChecked = []
+	// var regionChecked = []
+	// var productChecked = []
 	for (var i = 0; i < inputs.length; i++) {
 		var input = inputs[i]
-		if (input.checked === true && input.parentElement === regionFrom) {
+		if (input.checked === true && input.parentElement === regionForm) {
 			regionChecked.push(input)
-		} else if (input.checked === true && input.parentElement === productFrom){
+		} else if (input.checked === true && input.parentElement === productForm){
 			productChecked.push(input)
 		}
 	}
 	log('regionChecked one is', regionChecked)
 	log('productChecked one is', productChecked)
+	log('regionChecked is ...', regionChecked[0].dataset.region, regionChecked[0].value,
+	regionChecked.length)
 	return regionChecked, productChecked
 }
 
-
+var getSelectedRegion = function() {
+	var regionForm = e('.region')
+	var inputs = document.getElementsByTagName('input')
+	var selectedChecked = []
+	for (var i = 0; i < inputs.length; i++) {
+		var input = inputs[i]
+		if (input.checked === true && input.parentElement === regionForm) {
+			regionChecked.push(input)
+		} 
+	}
+	return regionChecked
+}
 
 
 
