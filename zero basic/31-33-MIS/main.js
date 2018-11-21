@@ -2,6 +2,10 @@ const log = function() {
 	console.log.apply(console, arguments)
 }
 
+const e = function(selector) {
+	return document.querySelector(selector)
+}
+
 const bindEvent = function(element, eventName, callback) {
 	element.addEventListener(eventName, callback)
 }
@@ -38,22 +42,51 @@ var bindEvents = function() {
 }
 
 
+// 分开获取用户选择的数据, 一开始是地区和商品放在一个数组里
 var getData = function() {
+	var regionFrom = e('.region')
+	var productFrom = e('.product')
 	var inputs = document.getElementsByTagName('input')
-	var checked = []
+	var regionChecked = []
+	var productChecked = []
 	for (var i = 0; i < inputs.length; i++) {
 		var input = inputs[i]
-		if (input.checked) {
-			checked.push(input)
+		if (input.checked === true && input.parentElement === regionFrom) {
+			regionChecked.push(input)
+		} else if (input.checked === true && input.parentElement === productFrom){
+			productChecked.push(input)
 		}
 	}
-	log('checked is', checked)
-	return checked
+	log('regionChecked one is', regionChecked)
+	log('productChecked one is', productChecked)
+	return regionChecked, productChecked
 }
 
-// getData()
+var templateTableHead = function() {
+	var t = `
+		<table border='1'>
+			<tr>
+				<th>商品</th>
+				<th>地区</th>
+				<th>一月份</th>
+				<th>二月份</th>
+				<th>三月份</th>
+				<th>四月份</th>
+				<th>五月份</th>
+				<th>六月份</th>
+				<th>七月份</th>
+				<th>八月份</th>
+				<th>九月份</th>
+				<th>十月份</th>
+				<th>十一月份</th>
+				<th>十二月份</th>
+			</tr>
+		</table>
+	`
+	return t
+}
 
-
+// log('sourceData', sourceData)
 
 
 var __main = function() {
@@ -61,3 +94,5 @@ var __main = function() {
 }
 
 __main()
+
+
