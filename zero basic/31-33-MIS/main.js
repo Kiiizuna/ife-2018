@@ -38,9 +38,12 @@ const appendHTML = function(element, html) {
 //     }
 //     把生成的HTML内容赋给table-wrapper
 // }
-var regionChecked = []
-var productChecked = []
 
+// var regionChecked = []
+// var productChecked = []
+
+
+// 表头模板
 var templateTableHead = function() {
 	var t = `
 		<table class='table' border='1'>
@@ -65,11 +68,11 @@ var templateTableHead = function() {
 	return t
 }
 
-var templateTableRow = function(input) {
+var templateTableRow = function(input, product) {
 	var region = input.dataset.region
 	var t = `
 		<tr>
-			<td>11</td>
+			<td>${product}</td>
 			<td>${region}</td>
 			<td>1</td>
 			<td>2</td>
@@ -89,19 +92,20 @@ var templateTableRow = function(input) {
 }
 
 var insertTableHeader = function() {
-	var table = e('#table-wrapper')
-	table.innerHTML = ''
+	var tableDiv = e('#table-wrapper')
+	tableDiv.innerHTML = ''
 	var tableHeader = templateTableHead()
-	appendHTML(table, tableHeader)
+	appendHTML(tableDiv, tableHeader)
 }
 
-var insertTableRow = function(sourceData) {
+var insertTableRow = function(sourceData, selectedRegion) {
 	var table = e('.table')
-	for (var i = 0; i < regionChecked.length; i++) {
+	for (var i = 0; i < selectedRegion.length; i++) {
 		for (var j = 0; j < sourceData.length; j++) {
-			var selectedRegion = regionChecked[i].dataset.region
-			if( selectedRegion === sourceData[j].region) {
-				var tableRow = templateTableRow(regionChecked[i])
+			var selectedRegionOne = selectedRegion[i].dataset.region
+			if( selectedRegionOne === sourceData[j].region) {
+				var specificProduct = sourceData[j].product
+				var tableRow = templateTableRow(selectedRegion[i], specificProduct)
 				appendHTML(table, tableRow)
 			}
 		}
@@ -111,19 +115,20 @@ var insertTableRow = function(sourceData) {
 // 所有绑定事件集合的函数
 var bindEvents = function() {
 	bindAll('.class-input', 'click', function() {
-		// var regionChecked = []
-		getData()
+		// getData()
+		// 获取点击到的地区, return 出来给变量
 		var selectedRegion = getSelectedRegion()
-		log('regionChecked', regionChecked, 'selectedRegion',selectedRegion)
+		var selectedProduct = getSelectedProduct()
+		log('selectedProduct is', selectedProduct, 'selectedRegion is',selectedRegion)
 		insertTableHeader()
-		insertTableRow(sourceData)
+		insertTableRow(sourceData, selectedRegion)
 
 	})
 		log('click')
 }
 
 
-// 分开获取用户选择的数据, 一开始是地区和商品放在一个数组里
+// 分开获取用户选择的数据, 最开始是地区和商品放在一个数组里, 之后分成两个函数获取地区和商品
 var getData = function() {
 	var regionForm = e('.region')
 	var productForm = e('.product')
@@ -145,10 +150,11 @@ var getData = function() {
 	return regionChecked, productChecked
 }
 
+// 获取点击的地区 
 var getSelectedRegion = function() {
 	var regionForm = e('.region')
 	var inputs = document.getElementsByTagName('input')
-	var selectedChecked = []
+	var regionChecked = []
 	for (var i = 0; i < inputs.length; i++) {
 		var input = inputs[i]
 		if (input.checked === true && input.parentElement === regionForm) {
@@ -158,8 +164,19 @@ var getSelectedRegion = function() {
 	return regionChecked
 }
 
-
-
+// 获取点击的商品
+var getSelectedProduct = function() {
+	var productForm = e('.product')
+	var inputs = document.getElementsByTagName('input')
+	var productChecked = []
+	for (var i = 0; i < inputs.length; i++) {
+		var input = inputs[i]
+		if (input.checked === true && input.parentElement === productForm) {
+			productChecked.push(input)
+		} 
+	}
+	return productChecked
+}
 
 
 var __main = function() {
