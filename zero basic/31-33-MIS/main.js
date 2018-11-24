@@ -68,29 +68,30 @@ var templateTableHead = function() {
 	return t
 }
 
-var templateTableRow = function(input, product) {
+var templateTableRow = function(input, specificProduct, sale) {
 	var region = input.dataset.region
 	var t = `
 		<tr>
-			<td>${product}</td>
+			<td>${specificProduct}</td>
 			<td>${region}</td>
-			<td>1</td>
-			<td>2</td>
-			<td>33</td>
-			<td>44</td>
-			<td>55</td>
-			<td>6</td>
-			<td>7</td>
-			<td>888</td>
-			<td>99</td>
-			<td>10</td>
-			<td>111</td>
-			<td>12</td>				
+			<td>${sale[0]}</td>
+			<td>${sale[1]}</td>
+			<td>${sale[2]}</td>
+			<td>${sale[3]}</td>
+			<td>${sale[4]}</td>
+			<td>${sale[5]}</td>
+			<td>${sale[6]}</td>
+			<td>${sale[7]}</td>
+			<td>${sale[8]}</td>
+			<td>${sale[9]}</td>
+			<td>${sale[10]}</td>
+			<td>${sale[11]}</td>	
 		</tr>
 	`
 	return t
 }
 
+// 插入表头
 var insertTableHeader = function() {
 	var tableDiv = e('#table-wrapper')
 	tableDiv.innerHTML = ''
@@ -98,15 +99,35 @@ var insertTableHeader = function() {
 	appendHTML(tableDiv, tableHeader)
 }
 
-var insertTableRow = function(sourceData, selectedRegion) {
+// 根据地址信息从 sourceData 中获取所有的产品的销量 OK
+var insertTableRow = function(sourceData, selectedRegion, selectedProduct) {
 	var table = e('.table')
 	for (var i = 0; i < selectedRegion.length; i++) {
 		for (var j = 0; j < sourceData.length; j++) {
 			var selectedRegionOne = selectedRegion[i].dataset.region
 			if( selectedRegionOne === sourceData[j].region) {
 				var specificProduct = sourceData[j].product
-				var tableRow = templateTableRow(selectedRegion[i], specificProduct)
+				var sales = sourceData[j].sale
+				var tableRow = templateTableRow(selectedRegion[i], specificProduct, sales)
 				appendHTML(table, tableRow)
+			}
+		}
+	}
+}
+
+var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
+	var table = e('.table')
+	for (var i = 0; i < selectedRegion.length; i++) {
+		for (var j = 0; j < selectedProduct.length; j++) {
+			for (var k = 0; k < sourceData.length; k++) {
+				var selectedRegionOne = selectedRegion[i].dataset.region
+				var selectedProductOne = selectedProduct[j].dataset.product
+				if( selectedRegionOne === sourceData[k].region && selectedProductOne === sourceData[k].product) {
+					var specificProduct = selectedProductOne
+					var sales = sourceData[k].sale
+					var tableRow = templateTableRow(selectedRegion[i], specificProduct, sales)
+					appendHTML(table, tableRow)
+				}
 			}
 		}
 	}
@@ -121,7 +142,8 @@ var bindEvents = function() {
 		var selectedProduct = getSelectedProduct()
 		log('selectedProduct is', selectedProduct, 'selectedRegion is',selectedRegion)
 		insertTableHeader()
-		insertTableRow(sourceData, selectedRegion)
+		// *** 传入了三个参数 ***
+		insertTableRow2(sourceData, selectedRegion, selectedProduct)
 
 	})
 		log('click')
