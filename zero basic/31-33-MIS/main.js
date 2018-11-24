@@ -68,11 +68,11 @@ var templateTableHead = function() {
 	return t
 }
 
-var templateTableRow = function(input, specificProduct, sale) {
-	var region = input.dataset.region
+var templateTableRow = function(region, product, sale) {
+	// var region = input.dataset.region
 	var t = `
 		<tr>
-			<td>${specificProduct}</td>
+			<td>${product}</td>
 			<td>${region}</td>
 			<td>${sale[0]}</td>
 			<td>${sale[1]}</td>
@@ -123,9 +123,9 @@ var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 				var selectedRegionOne = selectedRegion[i].dataset.region
 				var selectedProductOne = selectedProduct[j].dataset.product
 				if( selectedRegionOne === sourceData[k].region && selectedProductOne === sourceData[k].product) {
-					var specificProduct = selectedProductOne
+					// var specificProduct = selectedProductOne
 					var sales = sourceData[k].sale
-					var tableRow = templateTableRow(selectedRegion[i], specificProduct, sales)
+					var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
 					appendHTML(table, tableRow)
 				}
 			}
@@ -133,8 +133,28 @@ var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 	}
 }
 
+var getAllRegions = function() {
+	var regionForm = e('.region')
+	var regionInputs = regionForm.querySelectorAll('.class-input')
+	for (var i = 0; i < regionInputs.length; i++) {
+		var regionStatus = regionInputs[i].checked
+		if (regionStatus != true) {
+		regionInputs[i].checked = 'checked'
+		}
+	}
+}
+var getAllProducts = function() {
+	var productForm = e('.product')
+	var productInputs = productForm.querySelectorAll('.class-input')
+	for (var i = 0; i < productInputs.length; i++) {
+		productInputs[i].checked = 'checked'
+	}
+}
+
+
 // 所有绑定事件集合的函数
 var bindEvents = function() {
+	// 给单选绑定事件
 	bindAll('.class-input', 'click', function() {
 		// getData()
 		// 获取点击到的地区, return 出来给变量
@@ -144,9 +164,16 @@ var bindEvents = function() {
 		insertTableHeader()
 		// *** 传入了三个参数 ***
 		insertTableRow2(sourceData, selectedRegion, selectedProduct)
-
 	})
-		log('click')
+	
+	bindAll('.class-select-all','click', function(event) {
+		var regionForm = e('.region')
+		log('111', event.target.parentElement === regionForm)
+		if (event.target.parentElement === regionForm) {
+			getAllRegions()
+		log('select all region click')
+		} 
+	})
 }
 
 
@@ -179,7 +206,7 @@ var getSelectedRegion = function() {
 	var regionChecked = []
 	for (var i = 0; i < inputs.length; i++) {
 		var input = inputs[i]
-		if (input.checked === true && input.parentElement === regionForm) {
+		if (input.checked === true && input.parentElement === regionForm && input.dataset.region != 'all') {
 			regionChecked.push(input)
 		} 
 	}
@@ -193,7 +220,7 @@ var getSelectedProduct = function() {
 	var productChecked = []
 	for (var i = 0; i < inputs.length; i++) {
 		var input = inputs[i]
-		if (input.checked === true && input.parentElement === productForm) {
+		if (input.checked === true && input.parentElement === productForm && input.dataset.product != 'all') {
 			productChecked.push(input)
 		} 
 	}
