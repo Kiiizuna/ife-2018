@@ -138,8 +138,12 @@ var getAllRegions = function() {
 	var regionInputs = regionForm.querySelectorAll('.class-input')
 	for (var i = 0; i < regionInputs.length; i++) {
 		var regionStatus = regionInputs[i].checked
+		var inputRegionsAll = e('#region-all')
 		if (regionStatus != true) {
 		regionInputs[i].checked = 'checked'
+		} else if (regionStatus === true) {
+		regionInputs[i].checked = 'checked'
+		inputRegionsAll.checked = 'checked'
 		}
 	}
 }
@@ -160,6 +164,11 @@ var bindEvents = function() {
 		// 获取点击到的地区, return 出来给变量
 		var selectedRegion = getSelectedRegion()
 		var selectedProduct = getSelectedProduct()
+		//如果当前是全选状态，取消任何一个子选项，则全选CheckBox也要置为未勾选状态
+		var inputRegionsAll = e('#region-all')
+		if (selectedRegion.length < 3) {
+			inputRegionsAll.checked = false
+		}
 		log('selectedProduct is', selectedProduct, 'selectedRegion is',selectedRegion)
 		insertTableHeader()
 		// *** 传入了三个参数 ***
