@@ -147,6 +147,7 @@ var getAllRegions = function() {
 		}
 	}
 }
+
 var getAllProducts = function() {
 	var productForm = e('.product')
 	var productInputs = productForm.querySelectorAll('.class-input')
@@ -158,17 +159,23 @@ var getAllProducts = function() {
 
 // 所有绑定事件集合的函数
 var bindEvents = function() {
-	// 给单选绑定事件
+	// 给每个单选绑定点击事件
 	bindAll('.class-input', 'click', function() {
 		// getData()
-		// 获取点击到的地区, return 出来给变量
+		// 获取点击到的地区和商品, return 出来给变量
 		var selectedRegion = getSelectedRegion()
 		var selectedProduct = getSelectedProduct()
-		//如果当前是全选状态，取消任何一个子选项，则全选CheckBox也要置为未勾选状态
 		var inputRegionsAll = e('#region-all')
-		if (selectedRegion.length < 3) {
+		if (selectedRegion.length === 0) {
+			log('event.target is ', event.target)
+			event.preventDefault()
+		// 如果当前是全选状态，取消任何一个子选项，则全选CheckBox也要置为未勾选状态
+		} else if (selectedRegion.length < 3) {
 			inputRegionsAll.checked = false
-		}
+		// 点击最后一个未被选中的单个选项后，全选CheckBox也要置为被勾选状态
+		} else if (selectedRegion.length === 3) {
+			inputRegionsAll.checked = true
+		} 
 		log('selectedProduct is', selectedProduct, 'selectedRegion is',selectedRegion)
 		insertTableHeader()
 		// *** 传入了三个参数 ***
@@ -176,8 +183,8 @@ var bindEvents = function() {
 	})
 	
 	bindAll('.class-select-all','click', function(event) {
+		// 点击 region 全选时，如果单个选项中只要有一个不是被选上的状态，则进行全选操作
 		var regionForm = e('.region')
-		log('111', event.target.parentElement === regionForm)
 		if (event.target.parentElement === regionForm) {
 			getAllRegions()
 		log('select all region click')
