@@ -39,55 +39,106 @@ const appendHTML = function(element, html) {
 //     把生成的HTML内容赋给table-wrapper
 // }
 
-// var regionChecked = []
-// var productChecked = []
 
 
 // 表头模板
 var templateTableHead = function() {
-	var t = `
-		<table class='table' border='1'>
-			<tr>
-				<th>商品</th>
-				<th>地区</th>
-				<th>一月份</th>
-				<th>二月份</th>
-				<th>三月份</th>
-				<th>四月份</th>
-				<th>五月份</th>
-				<th>六月份</th>
-				<th>七月份</th>
-				<th>八月份</th>
-				<th>九月份</th>
-				<th>十月份</th>
-				<th>十一月份</th>
-				<th>十二月份</th>
-			</tr>
-		</table>
-	`
+	var selectedRegion = getSelectedRegion()
+	var selectedProduct = getSelectedProduct()
+	var regionQty = selectedRegion.length
+	var productQty = selectedProduct.length
+	if (regionQty === 1 && productQty > 1) {
+		var t = `
+			<table class='table' border='1'>
+				<tr>
+					<th>地区</th>
+					<th>商品</th>
+					<th>一月份</th>
+					<th>二月份</th>
+					<th>三月份</th>
+					<th>四月份</th>
+					<th>五月份</th>
+					<th>六月份</th>
+					<th>七月份</th>
+					<th>八月份</th>
+					<th>九月份</th>
+					<th>十月份</th>
+					<th>十一月份</th>
+					<th>十二月份</th>
+				</tr>
+			</table>
+		`
+	} else {
+		var t = `
+			<table class='table' border='1'>
+				<tr>
+					<th>商品</th>
+					<th>地区</th>
+					<th>一月份</th>
+					<th>二月份</th>
+					<th>三月份</th>
+					<th>四月份</th>
+					<th>五月份</th>
+					<th>六月份</th>
+					<th>七月份</th>
+					<th>八月份</th>
+					<th>九月份</th>
+					<th>十月份</th>
+					<th>十一月份</th>
+					<th>十二月份</th>
+				</tr>
+			</table>
+		`
+	}
 	return t
 }
 
+
+
 var templateTableRow = function(region, product, sale) {
-	// var region = input.dataset.region
-	var t = `
-		<tr>
-			<td>${product}</td>
-			<td>${region}</td>
-			<td>${sale[0]}</td>
-			<td>${sale[1]}</td>
-			<td>${sale[2]}</td>
-			<td>${sale[3]}</td>
-			<td>${sale[4]}</td>
-			<td>${sale[5]}</td>
-			<td>${sale[6]}</td>
-			<td>${sale[7]}</td>
-			<td>${sale[8]}</td>
-			<td>${sale[9]}</td>
-			<td>${sale[10]}</td>
-			<td>${sale[11]}</td>	
-		</tr>
-	`
+	var selectedRegion = getSelectedRegion()
+	var selectedProduct = getSelectedProduct()
+	var regionQty = selectedRegion.length
+	var productQty = selectedProduct.length
+	if (regionQty === 1 && productQty > 1) {
+		var t = `
+			<tr>
+				<td>${region}</td>
+				<td>${product}</td>
+				<td>${sale[0]}</td>
+				<td>${sale[1]}</td>
+				<td>${sale[2]}</td>
+				<td>${sale[3]}</td>
+				<td>${sale[4]}</td>
+				<td>${sale[5]}</td>
+				<td>${sale[6]}</td>
+				<td>${sale[7]}</td>
+				<td>${sale[8]}</td>
+				<td>${sale[9]}</td>
+				<td>${sale[10]}</td>
+				<td>${sale[11]}</td>	
+			</tr>
+	    `
+	} else {
+		var t = `
+			<tr>
+				<td>${product}</td>
+				<td>${region}</td>
+				<td>${sale[0]}</td>
+				<td>${sale[1]}</td>
+				<td>${sale[2]}</td>
+				<td>${sale[3]}</td>
+				<td>${sale[4]}</td>
+				<td>${sale[5]}</td>
+				<td>${sale[6]}</td>
+				<td>${sale[7]}</td>
+				<td>${sale[8]}</td>
+				<td>${sale[9]}</td>
+				<td>${sale[10]}</td>
+				<td>${sale[11]}</td>	
+			</tr>
+	    `
+	}
 	return t
 }
 
@@ -100,23 +151,26 @@ var insertTableHeader = function() {
 }
 
 // 根据地址信息从 sourceData 中获取所有的产品的销量 OK
-var insertTableRow = function(sourceData, selectedRegion, selectedProduct) {
-	var table = e('.table')
-	for (var i = 0; i < selectedRegion.length; i++) {
-		for (var j = 0; j < sourceData.length; j++) {
-			var selectedRegionOne = selectedRegion[i].dataset.region
-			if( selectedRegionOne === sourceData[j].region) {
-				var specificProduct = sourceData[j].product
-				var sales = sourceData[j].sale
-				var tableRow = templateTableRow(selectedRegion[i], specificProduct, sales)
-				appendHTML(table, tableRow)
-			}
-		}
-	}
-}
+// var insertTableRow = function(sourceData, selectedRegion, selectedProduct) {
+// 	var table = e('.table')
+// 	for (var i = 0; i < selectedRegion.length; i++) {
+// 		for (var j = 0; j < sourceData.length; j++) {
+// 			var selectedRegionOne = selectedRegion[i].dataset.region
+// 			if( selectedRegionOne === sourceData[j].region) {
+// 				var specificProduct = sourceData[j].product
+// 				var sales = sourceData[j].sale
+// 				var tableRow = templateTableRow(selectedRegion[i], specificProduct, sales)
+// 				appendHTML(table, tableRow)
+// 			}
+// 		}
+// 	}
+// }
 
+// 一行一行插入表格
 var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 	var table = e('.table')
+	// var regionQty = selectedRegion.length
+	// var productQty = selectedProduct.length
 	for (var i = 0; i < selectedRegion.length; i++) {
 		for (var j = 0; j < selectedProduct.length; j++) {
 			for (var k = 0; k < sourceData.length; k++) {
@@ -135,61 +189,135 @@ var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 
 var getAllRegions = function() {
 	var regionForm = e('.region')
-	var regionInputs = regionForm.querySelectorAll('.class-input')
+	var regionInputs = regionForm.querySelectorAll('.class-region')
+	var regionChecked = []
 	for (var i = 0; i < regionInputs.length; i++) {
+		regionChecked.push(regionInputs[i])
 		var regionStatus = regionInputs[i].checked
 		var inputRegionsAll = e('#region-all')
 		if (regionStatus != true) {
 		regionInputs[i].checked = 'checked'
 		} else if (regionStatus === true) {
-		regionInputs[i].checked = 'checked'
+		// regionInputs[i].checked = 'checked'
 		inputRegionsAll.checked = 'checked'
 		}
 	}
+	return regionChecked
 }
 
 var getAllProducts = function() {
 	var productForm = e('.product')
-	var productInputs = productForm.querySelectorAll('.class-input')
+	var productInputs = productForm.querySelectorAll('.class-product')
+	var productChecked = []
 	for (var i = 0; i < productInputs.length; i++) {
+		productChecked.push(productInputs[i])
+		var productStatus = productInputs[i].checked
+		var inputProductsAll = e('#product-all')
+		if (productStatus != true) {
 		productInputs[i].checked = 'checked'
+		} else if (productStatus === true) {
+		// productInputs[i].checked = 'checked'
+		inputProductsAll.checked = 'checked'
+		}
 	}
+	return productChecked
 }
+
+// getAllItems 把上面两个函数合并了
+var getAllItems = function(formSelector, selector, selectorAll) {
+	var form = e(formSelector)
+	var inputs = form.querySelectorAll(selector)
+	var all = []
+	for (var i = 0; i < inputs.length; i++) {
+		all.push(inputs[i])
+		var status = inputs[i].checked
+		var inputCheckBoxAll = e(selectorAll)
+		if (status != true) {
+		inputs[i].checked = 'checked'
+		} else if (status === true) {
+		// inputs[i].checked = 'checked'
+		inputCheckBoxAll.checked = 'checked'
+		}
+	}
+	return all
+}
+
 
 
 // 所有绑定事件集合的函数
 var bindEvents = function() {
 	// 给每个单选绑定点击事件
-	bindAll('.class-input', 'click', function() {
+	bindAll('.class-region', 'click', function() {
 		// getData()
 		// 获取点击到的地区和商品, return 出来给变量
 		var selectedRegion = getSelectedRegion()
 		var selectedProduct = getSelectedProduct()
 		var inputRegionsAll = e('#region-all')
+		// 不允许一个都不勾选，所以当用户想取消唯一一个被勾选的子选项时，无交互反应
+		// 虽然数组已经被清空, 但是再次把点击到的 event.target 加入数组
 		if (selectedRegion.length === 0) {
 			log('event.target is ', event.target)
 			event.preventDefault()
+			var target = event.target
+			selectedRegion.push(target)
 		// 如果当前是全选状态，取消任何一个子选项，则全选CheckBox也要置为未勾选状态
 		} else if (selectedRegion.length < 3) {
 			inputRegionsAll.checked = false
 		// 点击最后一个未被选中的单个选项后，全选CheckBox也要置为被勾选状态
 		} else if (selectedRegion.length === 3) {
 			inputRegionsAll.checked = true
-		} 
+		}
 		log('selectedProduct is', selectedProduct, 'selectedRegion is',selectedRegion)
 		insertTableHeader()
 		// *** 传入了三个参数 ***
 		insertTableRow2(sourceData, selectedRegion, selectedProduct)
 	})
+
+	bindAll('.class-product', 'click', function() {
+		// 同理对于商品选项
+		var selectedRegion = getSelectedRegion()
+		var selectedProduct = getSelectedProduct()
+		var inputProductsAll = e('#product-all')
+		if (selectedProduct.length === 0) {
+			log('event.target is ', event.target)
+			event.preventDefault()
+			var target = event.target
+			selectedProduct.push(target)
+		// 如果当前是全选状态，取消任何一个子选项，则全选CheckBox也要置为未勾选状态
+		} else if (selectedProduct.length < 3) {
+			inputProductsAll.checked = false
+		// 点击最后一个未被选中的单个选项后，全选CheckBox也要置为被勾选状态
+		} else if (selectedProduct.length === 3) {
+			inputProductsAll.checked = true
+		} 
+		insertTableHeader()
+		// *** 传入了三个参数 ***
+		insertTableRow2(sourceData, selectedRegion, selectedProduct)
+	})
 	
+	// 点击全选时, 选中所有 checkbox
 	bindAll('.class-select-all','click', function(event) {
 		// 点击 region 全选时，如果单个选项中只要有一个不是被选上的状态，则进行全选操作
 		var regionForm = e('.region')
+		var productForm = e('.product')
+		// 全选地区
 		if (event.target.parentElement === regionForm) {
-			getAllRegions()
-		log('select all region click')
-		} 
+			var selectedRegions = getAllItems('.region', '.class-region', '#region-all') 
+			var selectedProduct = getSelectedProduct()
+			log('select all region click')
+			insertTableHeader()
+			insertTableRow2(sourceData, selectedRegions, selectedProduct)
+		// 全选商品
+		} else if (event.target.parentElement === productForm) {
+			var selectedRegion = getSelectedRegion()
+			var selectedProducts = getAllItems('.product', '.class-product', '#product-all') 
+			log('select all product click')
+			insertTableHeader()
+			insertTableRow2(sourceData, selectedRegion, selectedProducts)	
+		}
 	})
+
+
 }
 
 
