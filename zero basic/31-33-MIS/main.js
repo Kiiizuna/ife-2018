@@ -94,7 +94,6 @@ var templateTableHead = function() {
 }
 
 
-
 var templateTableRow = function(region, product, sale) {
 	var selectedRegion = getSelectedRegion()
 	var selectedProduct = getSelectedProduct()
@@ -103,7 +102,7 @@ var templateTableRow = function(region, product, sale) {
 	if (regionQty === 1 && productQty > 1) {
 		var t = `
 			<tr>
-				<td rowspan="0">${region}</td>
+				<td rowspan="2">${region}</td>
 				<td>${product}</td>
 				<td>${sale[0]}</td>
 				<td>${sale[1]}</td>
@@ -122,7 +121,54 @@ var templateTableRow = function(region, product, sale) {
 	} else {
 		var t = `
 			<tr>
+				<td rowspan="3">${product}</td>
+				<td>${region}</td>
+				<td>${sale[0]}</td>
+				<td>${sale[1]}</td>
+				<td>${sale[2]}</td>
+				<td>${sale[3]}</td>
+				<td>${sale[4]}</td>
+				<td>${sale[5]}</td>
+				<td>${sale[6]}</td>
+				<td>${sale[7]}</td>
+				<td>${sale[8]}</td>
+				<td>${sale[9]}</td>
+				<td>${sale[10]}</td>
+				<td>${sale[11]}</td>	
+			</tr>
+	    `
+	}
+	return t
+}
+
+
+
+var templateTableRow2nd = function(region, product, sale) {
+	var selectedRegion = getSelectedRegion()
+	var selectedProduct = getSelectedProduct()
+	var regionQty = selectedRegion.length
+	var productQty = selectedProduct.length
+	if (regionQty === 1 && productQty > 1) {
+		var t = `
+			<tr>
 				<td>${product}</td>
+				<td>${sale[0]}</td>
+				<td>${sale[1]}</td>
+				<td>${sale[2]}</td>
+				<td>${sale[3]}</td>
+				<td>${sale[4]}</td>
+				<td>${sale[5]}</td>
+				<td>${sale[6]}</td>
+				<td>${sale[7]}</td>
+				<td>${sale[8]}</td>
+				<td>${sale[9]}</td>
+				<td>${sale[10]}</td>
+				<td>${sale[11]}</td>	
+			</tr>
+	    `
+	} else {
+		var t = `
+			<tr>
 				<td>${region}</td>
 				<td>${sale[0]}</td>
 				<td>${sale[1]}</td>
@@ -166,6 +212,14 @@ var insertTableHeader = function() {
 // 	}
 // }
 
+
+// var setRowspan = function(regionQty, productQty) {
+
+// }
+
+
+
+
 // 一行一行插入表格, 用以下函数最后 append 一次就会有一个 tbody 出现,导致无法设置 rowspan 属性
 var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 	var table = e('.table')
@@ -190,6 +244,7 @@ var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 
 var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 	var temlateAll = ''
+	var rowNum = 0
 	var table = e('.table')
 	var regionQty = selectedRegion.length
 	var productQty = selectedProduct.length
@@ -202,15 +257,22 @@ var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 				if(selectedProductOne === sourceData[k].product && selectedRegionOne === sourceData[k].region ) {
 					// var specificProduct = selectedProductOne
 					var sales = sourceData[k].sale
-					var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+					if (i === 0) {
+						var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+						// rowNum++
+					} else if (j === 0) {
+						log('j === 0')
+						var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+					} else {
+						var tableRow = templateTableRow2nd(selectedRegionOne, selectedProductOne, sales)
+					}
 					var temlateAll = temlateAll + tableRow
 					// appendHTML(table, tableRow)
 				}
 			}
 		}
 	}
-	appendHTML(table, temlateAll)
-	
+	appendHTML(table, temlateAll)	
 }
 
 
@@ -348,7 +410,7 @@ var bindEvents = function() {
 }
 
 
-// 分开获取用户选择的数据, 最开始是地区和商品放在一个数组里, 之后分成两个函数获取地区和商品
+// 分开获取用户选择的数据, 最开始是地区和商品放在一个数组里, 之后分成两个函数获取地区和商品, 这个不用了
 var getData = function() {
 	var regionForm = e('.region')
 	var productForm = e('.product')
