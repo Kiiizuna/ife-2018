@@ -103,7 +103,7 @@ var templateTableRow = function(region, product, sale) {
 	if (regionQty === 1 && productQty > 1) {
 		var t = `
 			<tr>
-				<td>${region}</td>
+				<td rowspan="0">${region}</td>
 				<td>${product}</td>
 				<td>${sale[0]}</td>
 				<td>${sale[1]}</td>
@@ -166,17 +166,18 @@ var insertTableHeader = function() {
 // 	}
 // }
 
-// 一行一行插入表格
+// 一行一行插入表格, 用以下函数最后 append 一次就会有一个 tbody 出现,导致无法设置 rowspan 属性
 var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 	var table = e('.table')
-	// var regionQty = selectedRegion.length
-	// var productQty = selectedProduct.length
-	for (var i = 0; i < selectedRegion.length; i++) {
-		for (var j = 0; j < selectedProduct.length; j++) {
+	var regionQty = selectedRegion.length
+	var productQty = selectedProduct.length
+	for (var i = 0; i < productQty; i++) {
+		for (var j = 0; j < regionQty; j++) {
 			for (var k = 0; k < sourceData.length; k++) {
-				var selectedRegionOne = selectedRegion[i].dataset.region
-				var selectedProductOne = selectedProduct[j].dataset.product
-				if( selectedRegionOne === sourceData[k].region && selectedProductOne === sourceData[k].product) {
+				var selectedProductOne = selectedProduct[i].dataset.product
+				var selectedRegionOne = selectedRegion[j].dataset.region
+				// var selectedProductOne = selectedProduct[i].dataset.product
+				if(selectedProductOne === sourceData[k].product && selectedRegionOne === sourceData[k].region ) {
 					// var specificProduct = selectedProductOne
 					var sales = sourceData[k].sale
 					var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
@@ -186,6 +187,32 @@ var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 		}
 	}
 }
+
+var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
+	var temlateAll = ''
+	var table = e('.table')
+	var regionQty = selectedRegion.length
+	var productQty = selectedProduct.length
+	for (var i = 0; i < productQty; i++) {
+		for (var j = 0; j < regionQty; j++) {
+			for (var k = 0; k < sourceData.length; k++) {
+				var selectedProductOne = selectedProduct[i].dataset.product
+				var selectedRegionOne = selectedRegion[j].dataset.region
+				// var selectedProductOne = selectedProduct[i].dataset.product
+				if(selectedProductOne === sourceData[k].product && selectedRegionOne === sourceData[k].region ) {
+					// var specificProduct = selectedProductOne
+					var sales = sourceData[k].sale
+					var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+					var temlateAll = temlateAll + tableRow
+					// appendHTML(table, tableRow)
+				}
+			}
+		}
+	}
+	appendHTML(table, temlateAll)
+	
+}
+
 
 var getAllRegions = function() {
 	var regionForm = e('.region')
