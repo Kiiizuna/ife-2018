@@ -99,10 +99,12 @@ var templateTableRow = function(region, product, sale) {
 	var selectedProduct = getSelectedProduct()
 	var regionQty = selectedRegion.length
 	var productQty = selectedProduct.length
+	log('productQty', productQty)
+	log('regionQty', regionQty)
 	if (regionQty === 1 && productQty > 1) {
 		var t = `
 			<tr>
-				<td rowspan="2">${region}</td>
+				<td rowspan=${productQty}>${region}</td>
 				<td>${product}</td>
 				<td>${sale[0]}</td>
 				<td>${sale[1]}</td>
@@ -121,7 +123,7 @@ var templateTableRow = function(region, product, sale) {
 	} else {
 		var t = `
 			<tr>
-				<td rowspan="3">${product}</td>
+				<td rowspan=${regionQty}>${product}</td>
 				<td>${region}</td>
 				<td>${sale[0]}</td>
 				<td>${sale[1]}</td>
@@ -213,10 +215,36 @@ var insertTableHeader = function() {
 // }
 
 
-// var setRowspan = function(regionQty, productQty) {
 
+
+
+// var createTableRow = function(selectedRegion, selectedProduct, sales, selectedRegionOne, selectedProductOne) {
+// 	var tableRow = ''
+// 	var regionQty = selectedRegion.length
+// 	var productQty = selectedProduct.length	
+// 	if (regionQty === 1 && productQty > 1) {
+// 		if (i === 0) {
+// 			var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+// 		} else {
+// 			var tableRow = templateTableRow2nd(selectedRegionOne, selectedProductOne, sales)
+// 		}
+// 	} else if (regionQty > 1 && productQty > 1) {
+// 		if (j === 0) {
+// 			var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+// 		} else {
+// 			var tableRow = templateTableRow2nd(selectedRegionOne, selectedProductOne, sales)
+// 		}
+// 	} else if (productQty === 1 && regionQty > 1) {
+// 		if (j === 0) {
+// 			var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+// 		} else {
+// 			var tableRow = templateTableRow2nd(selectedRegionOne, selectedProductOne, sales)
+// 		}
+// 	} else if (productQty === 1 && regionQty === 1) {
+// 			var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+// 	}
+// 	return tableRow
 // }
-
 
 
 
@@ -244,7 +272,6 @@ var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 
 var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 	var temlateAll = ''
-	var rowNum = 0
 	var table = e('.table')
 	var regionQty = selectedRegion.length
 	var productQty = selectedProduct.length
@@ -257,23 +284,38 @@ var insertTableRow2 = function(sourceData, selectedRegion, selectedProduct) {
 				if(selectedProductOne === sourceData[k].product && selectedRegionOne === sourceData[k].region ) {
 					// var specificProduct = selectedProductOne
 					var sales = sourceData[k].sale
-					if (i === 0) {
-						var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
-						// rowNum++
-					} else if (j === 0) {
-						log('j === 0')
-						var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
-					} else {
-						var tableRow = templateTableRow2nd(selectedRegionOne, selectedProductOne, sales)
+					if (regionQty === 1 && productQty > 1) {
+						if (i === 0) {
+							var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+						} else {
+							var tableRow = templateTableRow2nd(selectedRegionOne, selectedProductOne, sales)
+						}
+					} else if (regionQty > 1 && productQty > 1) {
+						if (j === 0) {
+							var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+						} else {
+							var tableRow = templateTableRow2nd(selectedRegionOne, selectedProductOne, sales)
+						}
+					} else if (productQty === 1 && regionQty > 1) {
+						if (j === 0) {
+							var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
+						} else {
+							var tableRow = templateTableRow2nd(selectedRegionOne, selectedProductOne, sales)
+						}
+					} else if (productQty === 1 && regionQty === 1) {
+							var tableRow = templateTableRow(selectedRegionOne, selectedProductOne, sales)
 					}
+					
 					var temlateAll = temlateAll + tableRow
-					// appendHTML(table, tableRow)
+					// appendHTML(table, tableRow) 
+					// 原来是放在这里的
 				}
 			}
 		}
 	}
 	appendHTML(table, temlateAll)	
 }
+
 
 
 var getAllRegions = function() {
